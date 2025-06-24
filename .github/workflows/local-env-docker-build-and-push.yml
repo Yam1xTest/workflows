@@ -37,12 +37,10 @@ jobs:
     steps:
       - name: echo
         run: |
-          echo ${{ github.workflow }}
-          echo ${{ github.repository }}
-          echo ${{ github.head_ref || github.ref_name }}
-          echo ${{ github.head_ref }}
-          echo ${{ github.ref_name }}
-          echo "5>3 ? true : false"
+          a=1; b=2
+          z=$((a > b ? a : b))
+          echo "$z"
+
       - name: Check out the repo
         uses: actions/checkout@v4
       # multi-platform build configured using this https://docs.docker.com/build/ci/github-actions/multi-platform/
