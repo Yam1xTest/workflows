@@ -49,7 +49,7 @@ jobs:
             # We tried to use yq to change the image tag, but in the values files for helmfile we have non-yaml code that yq can`t parse or ignore
             # so for that reason we use Stream EDitor which can find needeed string using regular expressions and change it to a new value
             # The -i flag is needed to write new image tag directly to values file
-            sed -i "0,/tag:.*/s//tag: \"${{ inputs.prefix && format('{0}-', inputs.prefix) || '' }}sha-${{ github.sha }}\"/" ${{ inputs.path_to_values }}
+            # sed -i "0,/tag:.*/s//tag: \"${{ inputs.prefix && format('{0}-', inputs.prefix) || '' }}sha-${{ github.sha }}\"/" ${{ inputs.path_to_values }}
 
             kind create cluster --name pelican --config kind-local-config.yaml --kubeconfig ./.pelican-cluster-kubeconfig
             
@@ -97,9 +97,9 @@ jobs:
         run: npx playwright install chromium --with-deps
 
       - name: Playwright run
-        run: npm run playwright:run:e2e --reporter=html 
-    
-        env: '${{ toJSON(inputs.playwright_env) }}'
+        run: |
+          echo "${{ inputs.playwright_env }}" >> $GITHUB_ENV
+          npm run playwright:run:e2e --reporter=html 
 
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
