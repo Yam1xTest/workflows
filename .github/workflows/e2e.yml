@@ -96,10 +96,10 @@ jobs:
         if: steps.cache-playwrightbrowsers.outputs.cache-hit != 'true'
         run: npx playwright install chromium --with-deps
 
+      - name: Set variables for playwright
+        run: echo "${{ inputs.playwright_env }}" >> $GITHUB_ENV
       - name: Playwright run
-        run: |
-          echo "${{ inputs.playwright_env }}" >> $GITHUB_ENV
-          npm run playwright:run:e2e --reporter=html 
+        run: npm run playwright:run:e2e --reporter=html 
 
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
