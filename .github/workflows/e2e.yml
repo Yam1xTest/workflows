@@ -98,8 +98,9 @@ jobs:
 
       - name: Set variables for playwright
         run: echo "${{ inputs.playwright_env }}" >> $GITHUB_ENV
+        
       - name: Playwright run
-        run: npm run playwright:run:e2e --reporter=html 
+        run: npx playwright test --reporter=html --config=playwright.e2e.config.ts 
 
       - name: Upload HTML report
         uses: actions/upload-artifact@v4
